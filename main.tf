@@ -84,12 +84,13 @@ resource "aws_security_group" "web_sg" {
 
 #EC2 Instance
 resource "aws_instance" "web_instance" {
-    ami = var.ami_id
-    instance_type = var.instance_type
-    subnet_id = aws_subnet.public_subnet_1.id
-    security_groups = [aws_security_group.web_sg.name]
-    tags = {
-        Name = "Terra-Web-Instance"
-    }
-  
+  ami                         = var.ami_id
+  instance_type               = var.instance_type
+  subnet_id                   = aws_subnet.public_subnet_1.id
+  vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
+  associate_public_ip_address = true
+
+  tags = {
+    Name = "terraform-web-server"
+  }
 }
